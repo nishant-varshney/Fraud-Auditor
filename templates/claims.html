@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Claims Review</h2>
+
+<form method="get" class="filter-form">
+  <input type="text" name="q" placeholder="Search diagnosis, gender..." value="{{ q }}">
+  <select name="category">
+    <option value="">All Categories</option>
+    <option value="Low" {% if category=='Low' %}selected{% endif %}>Low</option>
+    <option value="Medium" {% if category=='Medium' %}selected{% endif %}>Medium</option>
+    <option value="High" {% if category=='High' %}selected{% endif %}>High</option>
+  </select>
+  <button type="submit">Filter</button>
+</form>
+
+<p>Total matching: {{ total }}</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th><th>SN</th><th>Gender</th><th>Diagnosis</th><th>Amount</th><th>Date Admitted</th><th>Date Discharged</th><th>LOS</th><th>Score</th><th>Category</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in claims %}
+    <tr>
+      <td>{{ loop.index + (page-1)*10 }}</td>
+      <td>{{ r.sn }}</td>
+      <td>{{ r.gender }}</td>
+      <td>{{ r.diagnosis }}</td>
+      <td>{{ r.amount }}</td>
+      <td>{{ r.date_admitted }}</td>
+      <td>{{ r.date_discharged }}</td>
+      <td>{{ r.los }}</td>
+      <td class="score {{ r.fraud_category|lower }}">{{ r.fraud_score }}</td>
+      <td>{{ r.fraud_category }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pager">
+  {% if page > 1 %}
+    <a href="?page={{ page-1 }}&q={{ q }}&category={{ category }}">Prev</a>
+  {% endif %}
+  Page {{ page }} of {{ pages }}
+  {% if page < pages %}
+    <a href="?page={{ page+1 }}&q={{ q }}&category={{ category }}">Next</a>
+  {% endif %}
+</div>
+
+{% endblock %}

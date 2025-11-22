@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="cards">
+  <div class="card">
+    <h3>Total Claims</h3>
+    <div class="big">{{ total_claims }}</div>
+  </div>
+  <div class="card">
+    <h3>Average Claim Amount</h3>
+    <div class="big">₦{{ avg_amount }}</div>
+  </div>
+  <div class="card">
+    <h3>Claims Flagged (score &gt; 75)</h3>
+    <div class="big">{{ high_count }} ({{ pct_flagged }}%)</div>
+  </div>
+</section>
+
+<section>
+  <h2>Fraud Risk Distribution</h2>
+  <div class="dist">
+    <div class="bar-row"><strong>Low</strong> <span class="bar" style="width: {{ (dist.get('Low',0)/ (total_claims or 1)) * 300 }}px;"></span> ({{ dist.get('Low',0) }})</div>
+    <div class="bar-row"><strong>Medium</strong> <span class="bar" style="width: {{ (dist.get('Medium',0)/ (total_claims or 1)) * 300 }}px;"></span> ({{ dist.get('Medium',0) }})</div>
+    <div class="bar-row"><strong>High</strong> <span class="bar" style="width: {{ (dist.get('High',0)/ (total_claims or 1)) * 300 }}px;"></span> ({{ dist.get('High',0) }})</div>
+  </div>
+</section>
+
+<section>
+  <h2>Top Suspicious Claims</h2>
+  <table class="mini">
+    <thead><tr><th>#</th><th>Diagnosis</th><th>Amount</th><th>Score</th><th>Category</th></tr></thead>
+    <tbody>
+      {% for r in top_rows %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ r.diagnosis }}</td>
+        <td>{{ r.amount }}</td>
+        <td>{{ r.fraud_score }}</td>
+        <td>{{ r.fraud_category }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

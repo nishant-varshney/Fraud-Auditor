@@ -1,0 +1,26 @@
+<!-- templates/base.html -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>NHIS Fraud Auditor</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1><a href="/">NHIS Claims Auditor Dashboard</a></h1>
+    <nav>
+      <a href="/">Dashboard</a> |
+      <a href="/claims">Claims Review</a>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <small>Prototype — explainable heuristic, SQLite backend</small>
+  </footer>
+</body>
+</html>

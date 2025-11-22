@@ -1,0 +1,44 @@
+CREATE TABLE claims (
+	sn BIGINT, 
+	gender TEXT, 
+	diagnosis TEXT, 
+	age FLOAT, 
+	amount FLOAT, 
+	date_admitted TEXT, 
+	date_discharged TEXT, 
+	los BIGINT, 
+	diagnosis_canon TEXT, 
+	diag_avg FLOAT, 
+	fraud_score BIGINT, 
+	fraud_category TEXT
+);
+
+
+1. Total Number of Claims
+SELECT COUNT(*) AS total_claims FROM claims;
+
+2. Average Claim Amount
+SELECT AVG(amount) AS avg_claim_amount FROM claims;
+
+3. Number of High-Fraud Claims (Score > 75)
+SELECT COUNT(*) AS high_risk_claims 
+FROM claims
+WHERE fraud_score > 75;
+
+4. Fraud Score Distribution (Low/Medium/High)
+SELECT
+    CASE
+        WHEN fraud_score BETWEEN 0 AND 25 THEN 'Low'
+        WHEN fraud_score BETWEEN 26 AND 75 THEN 'Medium'
+        WHEN fraud_score BETWEEN 76 AND 100 THEN 'High'
+    END AS score_category,
+    COUNT(*) AS count
+FROM claims
+GROUP BY score_category;
+
+5. Paginated Claims Query for /claims
+SELECT * 
+FROM claims
+WHERE diagnosis LIKE ? AND gender LIKE ?  -- Filters: diagnosis, gender
+ORDER BY fraud_score DESC
+LIMIT ? OFFSET ?;  -- Pagination
