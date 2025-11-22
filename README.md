@@ -22,10 +22,15 @@ and provides a dashboard and claims review pages with filters.
 **Imp Files & Folders**
 
 **load_data.py** — reads CSV, cleans, computes fraud_score, stores into SQLite.
+
 **app.py** — Flask web app with routes / and /claims.
+
 **database.py **— SQLAlchemy engine/session.
+
 **templates/ and static/** — UI.
+
 **tests/** — pytest unit tests for the fraud scoring function.
+
 
 Fraud Heuristic (explainable)
 Score components:
